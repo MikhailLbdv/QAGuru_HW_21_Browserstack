@@ -1,7 +1,10 @@
 package test;
 
+import com.codeborne.selenide.Condition;
 import io.appium.java_client.AppiumBy;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
@@ -12,6 +15,7 @@ import static io.qameta.allure.Allure.step;
 public class SearchTests extends TestBase {
 
     @Test
+    @Disabled("Пример из лекции")
     @DisplayName("Successful search")
     void successfulSearchTest() {
         step("Type search", () -> {
@@ -22,4 +26,28 @@ public class SearchTests extends TestBase {
                 $$(AppiumBy.id("org.wikipedia.alpha:id/page_list_item_container"))
                         .shouldHave(sizeGreaterThan(0)));
     }
+
+    @Test
+    @Tag("android")
+    @DisplayName("Выбор статьи на главном экране")
+    void openArticle() {
+        String text = "Amidst a political crisis in Ecuador, President Guillermo Lasso (pictured) dissolves the National Assembly and triggers an early general election.";
+        step("Нажимаем на статью", () -> {
+            $(AppiumBy.id("org.wikipedia.alpha:id/horizontal_scroll_list_item_image")).click();
+        });
+        step("Проверка названия статьи", () ->
+                $(AppiumBy.id("org.wikipedia.alpha:id/view_news_fullscreen_story_text")).shouldHave(Condition.text(text)));
+    }
+
+//    @Test
+//    @Tag("ios")
+//    @DisplayName("Выбор статьи на главном экране")
+//    void openArticle1() {
+//        String text = "Amidst a political crisis in Ecuador, President Guillermo Lasso (pictured) dissolves the National Assembly and triggers an early general election.";
+//        step("Нажимаем на статью", () -> {
+//            $(AppiumBy.id("org.wikipedia.alpha:id/horizontal_scroll_list_item_image")).click();
+//        });
+//        step("Проверка названия статьи", () ->
+//                $(AppiumBy.id("org.wikipedia.alpha:id/view_news_fullscreen_story_text")).shouldHave(Condition.text(text)));
+//    }
 }
